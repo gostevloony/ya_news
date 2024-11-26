@@ -23,6 +23,10 @@ class TestRoutes(TestCase):
             text='Текст комментария'
         )
 
+    # 1. Главная страница доступна анонимному пользователю.
+    # 2. Страница отдельной новости доступна анонимному пользователю.
+    # 6. Страницы регистрации пользователей, входа в учётную
+    # запись и выхода из неё доступны анонимным пользователям.
     def test_pages_availability(self):
         urls = (
             ('news:home', None),
@@ -37,6 +41,10 @@ class TestRoutes(TestCase):
                 response = self.client.get(url)
                 self.assertEqual(response.status_code, HTTPStatus.OK)
 
+    # 3. Страницы удаления и редактирования комментария доступны автору
+    # комментария.
+    # 5. Авторизованный пользователь не может зайти на страницы редактирования
+    # или удаления чужих комментариев (возвращается ошибка 404).
     def test_availability_for_comment_edit_and_delete(self):
         users_statuses = (
             (self.author, HTTPStatus.OK),
@@ -50,6 +58,9 @@ class TestRoutes(TestCase):
                     response = self.client.get(url)
                     self.assertEqual(response.status_code, status)
 
+    # 4. При попытке перейти на страницу редактирования или удаления
+    # комментария анонимный пользователь перенаправляется на страницу
+    # авторизации.
     def test_redirect_for_anonymous_client(self):
         login_url = reverse('users:login')
         for name in ('news:edit', 'news:delete'):

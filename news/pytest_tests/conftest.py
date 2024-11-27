@@ -67,3 +67,8 @@ def comment(news, author):
 @pytest.fixture
 def id_for_args(comment):
     return (comment.id,)
+
+
+@pytest.fixture
+def form_data():
+    return {'text': 'Текст комментария'}

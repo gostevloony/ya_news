@@ -5,7 +5,7 @@ from django.urls import reverse
 import pytest
 
 from news.forms import BAD_WORDS, WARNING
-from news.models import News, Comment
+from news.models import Comment
 
 
 # 1. Анонимный пользователь не может отправить комментарий.
